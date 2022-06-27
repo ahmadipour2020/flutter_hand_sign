@@ -6,21 +6,23 @@ import 'package:flutter_hand_sign/scroll_test.dart';
 import 'package:hand_signature/signature.dart';
 
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
-HandSignatureControl control = new HandSignatureControl(
+HandSignatureControl control =  HandSignatureControl(
   threshold: 0.01,
   smoothRatio: 0.65,
   velocityRange: 2.0,
 );
 
-ValueNotifier<String?> svg = ValueNotifier<String?>(null);
+ValueNotifier<String> svg = ValueNotifier<String>(null);
 
-ValueNotifier<ByteData?> rawImage = ValueNotifier<ByteData?>(null);
+ValueNotifier<ByteData> rawImage = ValueNotifier<ByteData>(null);
 
-ValueNotifier<ByteData?> rawImageFit = ValueNotifier<ByteData?>(null);
+ValueNotifier<ByteData> rawImageFit = ValueNotifier<ByteData>(null);
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
+
   bool get scrollTest => false;
 
   // This widget is the root of your application.
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
                         child: Stack(
                           children: <Widget>[
                             Container(
-                              constraints: BoxConstraints.expand(),
+                              constraints: const BoxConstraints.expand(),
                               color: Colors.white,
                               child: HandSignature(
                                 control: control,
@@ -76,13 +78,13 @@ class MyApp extends StatelessWidget {
                           rawImage.value = null;
                           rawImageFit.value = null;
                         },
-                        child: Text('clear'),
+                        child: const Text('clear'),
                       ),
                       CupertinoButton(
                         onPressed: () async {
                           svg.value = control.toSvg(
                             color: Colors.blueGrey,
-                            size: Size(512, 256),
+                            size: const Size(512, 256),
                             strokeWidth: 2.0,
                             maxStrokeWidth: 15.0,
                             type: SignatureDrawType.shape,
@@ -99,11 +101,11 @@ class MyApp extends StatelessWidget {
                             background: Colors.greenAccent,
                           );
                         },
-                        child: Text('export'),
+                        child: const Text('export'),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16.0,
                   ),
                 ],
@@ -133,19 +135,19 @@ class MyApp extends StatelessWidget {
       border: Border.all(),
       color: Colors.white30,
     ),
-    child: ValueListenableBuilder<ByteData?>(
+    child: ValueListenableBuilder<ByteData>(
       valueListenable: rawImage,
       builder: (context, data, child) {
         if (data == null) {
           return Container(
             color: Colors.red,
-            child: Center(
+            child: const Center(
               child: Text('not signed yet (png)\nscaleToFill: false'),
             ),
           );
         } else {
           return Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Image.memory(data.buffer.asUint8List()),
           );
         }
@@ -160,19 +162,19 @@ class MyApp extends StatelessWidget {
       border: Border.all(),
       color: Colors.white30,
     ),
-    child: ValueListenableBuilder<ByteData?>(
+    child: ValueListenableBuilder<ByteData>(
       valueListenable: rawImageFit,
       builder: (context, data, child) {
         if (data == null) {
           return Container(
             color: Colors.red,
-            child: Center(
+            child: const Center(
               child: Text('not signed yet (png)\nscaleToFill: true'),
             ),
           );
         } else {
           return Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Image.memory(data.buffer.asUint8List()),
           );
         }
@@ -187,15 +189,15 @@ class MyApp extends StatelessWidget {
       border: Border.all(),
       color: Colors.white30,
     ),
-    child: ValueListenableBuilder<String?>(
+    child: ValueListenableBuilder<String>(
       valueListenable: svg,
       builder: (context, data, child) {
         return HandSignatureView.svg(
           data: data,
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           placeholder: Container(
             color: Colors.red,
-            child: Center(
+            child: const Center(
               child: Text('not signed yet (svg)'),
             ),
           ),

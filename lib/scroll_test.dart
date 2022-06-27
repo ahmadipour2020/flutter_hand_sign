@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hand_signature/signature.dart';
 
 class ScrollTest extends StatefulWidget {
+  const ScrollTest({Key key}) : super(key: key);
+
   @override
   _ScrollTestState createState() => _ScrollTestState();
 }
@@ -21,14 +23,14 @@ class _ScrollTestState extends State<ScrollTest> {
       backgroundColor: Colors.orange,
       body: ListView(
         physics: scrollEnabled
-            ? BouncingScrollPhysics()
-            : NeverScrollableScrollPhysics(),
+            ? const BouncingScrollPhysics()
+            : const NeverScrollableScrollPhysics(),
         children: <Widget>[
           Container(
             height: MediaQuery.of(context).size.height * 0.35,
           ),
           Container(
-            constraints: BoxConstraints.expand(height: 320.0),
+            constraints: const BoxConstraints.expand(height: 320.0),
             color: Colors.white,
             child: HandSignature(
               control: control,
